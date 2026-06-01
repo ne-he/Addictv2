@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+catboost_info
+notebooks
+tests
+app
+data
+.vscode
+*.md
+!README.md
