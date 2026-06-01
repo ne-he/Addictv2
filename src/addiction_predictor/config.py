@@ -132,6 +132,38 @@ ENGINEERED_FEATURES = [
     "social_media_x_anxiety",
 ]
 
+# Human-readable labels for the engineered features (raw-feature labels already
+# live on NUMERIC_FEATURES / CATEGORICAL_FEATURES). Used when surfacing SHAP
+# drivers so the UI/API never shows a cryptic column name.
+ENGINEERED_FEATURE_LABELS = {
+    "usage_zero_flag": "Penanda tidak memakai HP",
+    "checks_per_hour": "Frekuensi cek HP per jam pakai",
+    "apps_per_hour": "Jumlah app per jam pakai",
+    "screen_before_bed_ratio": "Porsi layar sebelum tidur",
+    "usage_to_sleep_ratio": "Rasio jam pakai HP vs tidur",
+    "late_screen_ratio": "Rasio layar malam vs tidur",
+    "social_to_solo_ratio": "Rasio interaksi sosial vs soliter",
+    "resilience_gap": "Selisih harga diri vs tekanan mental",
+    "high_gaming_x_sleep": "Interaksi gaming x tidur",
+    "social_media_x_anxiety": "Interaksi medsos x kecemasan",
+}
+
+_NUMERIC_LABELS = {f.name: f.label for f in NUMERIC_FEATURES}
+
+
+def human_label(feature: str) -> str:
+    """Map any model feature name (raw, engineered, or one-hot) to a label."""
+    if feature in _NUMERIC_LABELS:
+        return _NUMERIC_LABELS[feature]
+    if feature in ENGINEERED_FEATURE_LABELS:
+        return ENGINEERED_FEATURE_LABELS[feature]
+    for cat in CATEGORICAL_FEATURES:  # one-hot cols look like "Gender_Female"
+        prefix = cat.name + "_"
+        if feature.startswith(prefix):
+            return f"{cat.label}: {feature[len(prefix):]}"
+    return feature
+
+
 # Columns that get np.log1p applied (right-skewed)
 SKEWED_COLS = [
     "Age",
