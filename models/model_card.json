@@ -1,0 +1,92 @@
+{
+  "model_name": "phone-addiction-predictor",
+  "version": "2.0.0",
+  "created_at": "2026-06-01T07:03:22.235906+00:00",
+  "algorithm": "CatBoostRegressor",
+  "target": "Addiction_Level",
+  "prediction_range": [
+    1.0,
+    10.0
+  ],
+  "dataset": {
+    "file": "Phone_Addiction.csv",
+    "sha256": "da1c4eeca84ae52a229522dd62b08aa710ea151b618dc6d6fe8a32a5975f6b40",
+    "rows_after_cleaning": 6007,
+    "train_rows": 4805,
+    "test_rows": 1202
+  },
+  "split": {
+    "test_size": 0.2,
+    "random_state": 284091,
+    "stratify_bins": 10
+  },
+  "n_features": 33,
+  "feature_order": [
+    "Age",
+    "Daily_Usage_Hours",
+    "Sleep_Hours",
+    "Interllectual_Performance",
+    "Social_Interactions",
+    "Exercise_Hours",
+    "Anxiety_Level",
+    "Depression_Level",
+    "Self_Esteem",
+    "Screen_Time_Before_Bed",
+    "Phone_Checks_Per_Day",
+    "Apps_Used_Daily",
+    "Time_on_Social_Media",
+    "Time_on_Gaming",
+    "Time_on_Education",
+    "Family_Communication",
+    "Weekend_Usage_Hours",
+    "Gender_Female",
+    "Gender_Male",
+    "Phone_Usage_Purpose_Browsing",
+    "Phone_Usage_Purpose_Education",
+    "Phone_Usage_Purpose_Gaming",
+    "Phone_Usage_Purpose_Social Media",
+    "usage_zero_flag",
+    "checks_per_hour",
+    "apps_per_hour",
+    "screen_before_bed_ratio",
+    "usage_to_sleep_ratio",
+    "late_screen_ratio",
+    "social_to_solo_ratio",
+    "resilience_gap",
+    "high_gaming_x_sleep",
+    "social_media_x_anxiety"
+  ],
+  "hyperparameters": {
+    "iterations": 1000,
+    "learning_rate": 0.05,
+    "depth": 6,
+    "l2_leaf_reg": 3.0,
+    "loss_function": "RMSE",
+    "random_seed": 1,
+    "verbose": 0
+  },
+  "metrics": {
+    "train": {
+      "rmse": 0.15830559472829042,
+      "r2": 0.9903329423538524,
+      "mae": 0.09730520163509006
+    },
+    "test": {
+      "rmse": 0.36994495065707644,
+      "r2": 0.9464616151881593,
+      "mae": 0.18822637812365844
+    }
+  },
+  "library_versions": {
+    "python": "3.14.3",
+    "catboost": "1.2.10",
+    "scikit_learn": "1.8.0",
+    "pandas": "2.3.3",
+    "numpy": "2.4.2"
+  },
+  "caveats": [
+    "The dataset shows an unusually high test R2 (~0.95) for behavioural data, strongly suggesting it is synthetic. The model should not be treated as a validated clinical instrument.",
+    "Boosting models overfit: train RMSE is far below test RMSE. Test metrics are the honest estimate of generalisation on THIS dataset.",
+    "Predictions are statistical estimates, NOT a medical or psychological diagnosis."
+  ]
+}
