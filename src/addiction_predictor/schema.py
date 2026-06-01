@@ -12,7 +12,6 @@ from pydantic import BaseModel, Field, create_model, model_validator
 
 from . import config
 
-
 # ---------------------------------------------------------------------------
 # Input model (generated from config feature specs)
 # ---------------------------------------------------------------------------

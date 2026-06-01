@@ -44,7 +44,7 @@ class AddictionModel:
         model_path: str | Path | None = None,
         preprocessor_path: str | Path | None = None,
         card_path: str | Path | None = None,
-    ) -> "AddictionModel":
+    ) -> AddictionModel:
         """Load the persisted artifacts produced by `train.main()`."""
         model_path = Path(model_path or config.MODEL_PATH)
         preprocessor_path = Path(preprocessor_path or config.PREPROCESSOR_PATH)
