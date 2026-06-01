@@ -96,6 +96,19 @@ class AddictionModel:
         X = self.preprocessor.transform(raw_df)
         return [float(v) for v in self._clip(self.model.predict(X))]
 
+    def _drivers(self, contributions: np.ndarray, top_k: int) -> list[FeatureDriver]:
+        """Build the top_k signed drivers for one row's SHAP contributions."""
+        order = np.argsort(np.abs(contributions))[::-1][:top_k]
+        return [
+            FeatureDriver(
+                feature=self.feature_order[i],
+                human_label=config.human_label(self.feature_order[i]),
+                contribution=float(contributions[i]),
+                direction="increases" if contributions[i] > 0 else "decreases",
+            )
+            for i in order
+        ]
+
     def explain(
         self, raw: dict | pd.DataFrame, top_k: int = 6
     ) -> tuple[float, list[FeatureDriver]]:
@@ -106,20 +119,21 @@ class AddictionModel:
         """
         X = self._to_processed(raw)
         pred = float(self._clip(self.model.predict(X))[0])
-
         shap = np.asarray(
             self.model.get_feature_importance(Pool(X), type="ShapValues")
         )
-        contributions = shap[0, :-1]  # final column is the base (expected) value
+        return pred, self._drivers(shap[0, :-1], top_k)  # last col is base value
 
-        order = np.argsort(np.abs(contributions))[::-1][:top_k]
-        drivers = [
-            FeatureDriver(
-                feature=self.feature_order[i],
-                human_label=config.human_label(self.feature_order[i]),
-                contribution=float(contributions[i]),
-                direction="increases" if contributions[i] > 0 else "decreases",
-            )
-            for i in order
+    def explain_batch(
+        self, raw_df: pd.DataFrame, top_k: int = 6
+    ) -> list[tuple[float, list[FeatureDriver]]]:
+        """Per-row predictions + drivers from a single SHAP pass over the frame."""
+        X = self.preprocessor.transform(raw_df)
+        preds = self._clip(self.model.predict(X))
+        shap = np.asarray(
+            self.model.get_feature_importance(Pool(X), type="ShapValues")
+        )
+        return [
+            (float(preds[r]), self._drivers(shap[r, :-1], top_k))
+            for r in range(len(X))
         ]
-        return pred, drivers
