@@ -18,7 +18,7 @@ from __future__ import annotations
 import hashlib
 import json
 import platform
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import joblib
 import numpy as np
@@ -101,12 +101,13 @@ def main() -> dict:
     model.save_model(str(config.MODEL_PATH))
     joblib.dump(pp, config.PREPROCESSOR_PATH)
 
-    import catboost, sklearn  # local import just for version capture
+    import catboost
+    import sklearn  # local import just for version capture
 
     model_card = {
         "model_name": "phone-addiction-predictor",
         "version": __version__,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "algorithm": "CatBoostRegressor",
         "target": config.TARGET,
         "prediction_range": [config.PRED_MIN, config.PRED_MAX],
