@@ -49,11 +49,15 @@ class Preprocessor:
         # Sleep_Hours sometimes arrives as a quoted string e.g. '"6.1"'
         df["Sleep_Hours"] = df["Sleep_Hours"].astype(str).str.strip('"').astype(float)
 
-        # Normalise Gender spelling/casing, fix the known "femle" typo
-        df["Gender"] = (
+        # Normalise Gender spelling/casing, fix the known "femle" typo.
+        # astype(str) turns real NaN into the literal "nan"; map such null-like
+        # tokens back to NaN so _impute fills them with the mode instead of the
+        # encoder minting a meaningless "Gender_Nan" indicator column.
+        gender = (
             df["Gender"].astype(str).str.strip().str.lower()
-            .replace("femle", "female").str.capitalize()
+            .replace({"femle": "female", "nan": np.nan, "none": np.nan, "": np.nan})
         )
+        df["Gender"] = gender.str.capitalize()
 
         # "Unknown" purpose is a hidden missing value
         df["Phone_Usage_Purpose"] = df["Phone_Usage_Purpose"].replace("Unknown", np.nan)
