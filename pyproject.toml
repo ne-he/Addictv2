@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "addiction-predictor"
+description = "Smartphone-addiction-level regressor (CatBoost) with a shared preprocessing core reused by training, a FastAPI service, and a Streamlit demo."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "ne-he", email = "nehewj@gmail.com" }]
+keywords = ["machine-learning", "catboost", "shap", "fastapi", "streamlit"]
+dynamic = ["version"]
+
+dependencies = [
+    "catboost==1.2.10",
+    "scikit-learn==1.8.0",
+    "pandas==2.3.3",
+    "numpy==2.4.2",
+    "joblib==1.5.3",
+    "pydantic==2.12.5",
+]
+
+[project.optional-dependencies]
+api = ["fastapi==0.135.1", "uvicorn[standard]==0.41.0"]
+app = ["streamlit==1.55.0", "altair==6.0.0"]
+dev = ["pytest==9.0.2", "httpx==0.28.1", "ruff==0.14.5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "addiction_predictor.__version__" }
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# The sys.path bootstrap must run before importing the package, by design.
+"app/streamlit_app.py" = ["E402"]
+# Aligned data/copy tables and CLI progress prints read better unwrapped.
+"src/addiction_predictor/config.py" = ["E501"]
+"src/addiction_predictor/interpret.py" = ["E501"]
+"src/addiction_predictor/train.py" = ["E501"]

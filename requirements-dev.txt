@@ -1,0 +1,6 @@
+# Development + test dependencies. Installs runtime deps too.
+-r requirements.txt
+
+pytest==9.0.2
+httpx==0.28.1   # required by fastapi.testclient.TestClient
+ruff==0.14.5    # linter/formatter (config in pyproject.toml)
