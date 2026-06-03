@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sinyal — Phone Addiction Predictor</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- GSAP + ScrollTrigger (untuk efek video scroll-triggered) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  html, body { margin: 0; background: #0b0c0f; color: #e4e4e7; }
+  body { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  ::selection { background: rgba(255,69,0,0.3); }
+
+  /* custom range slider */
+  .om-range {
+    -webkit-appearance: none; appearance: none; height: 6px; border-radius: 999px;
+    background: linear-gradient(to right, var(--accent) var(--pct), rgba(255,255,255,0.08) var(--pct));
+    outline: none; cursor: pointer;
+  }
+  .om-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; border: 3px solid var(--accent);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5); cursor: grab; transition: transform .15s ease;
+  }
+  .om-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.15); }
+  .om-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%; background: #fff;
+    border: 3px solid var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.5); cursor: grab;
+  }
+  .om-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(255,255,255,0.25); }
+
+  /* view + card transitions */
+  @keyframes om-view-in { from { transform: translateY(6px); } to { transform: none; } }
+  .om-view { animation: om-view-in .4s ease; }
+  @keyframes om-fade-in { from { transform: translateY(10px); } to { transform: none; } }
+  .om-fade { animation: om-fade-in .5s cubic-bezier(.22,1,.36,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .om-view, .om-fade { animation: none !important; }
+    * { scroll-behavior: auto !important; }
+  }
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="src/scoring.jsx"></script>
+<script type="text/babel" src="src/icons.jsx"></script>
+<script type="text/babel" src="src/ui.jsx"></script>
+<script type="text/babel" src="src/background.jsx"></script>
+<script type="text/babel" src="src/gauge.jsx"></script>
+<script type="text/babel" src="src/driverchart.jsx"></script>
+<script type="text/babel" src="src/landing.jsx"></script>
+<script type="text/babel" src="src/assessment.jsx"></script>
+<script type="text/babel" src="src/result.jsx"></script>
+<script type="text/babel" src="src/app.jsx"></script>
+</body>
+</html>
