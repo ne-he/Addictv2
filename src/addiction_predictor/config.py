@@ -6,6 +6,7 @@ inference import from here, so there is no risk of the two drifting apart.
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -15,8 +16,27 @@ from pathlib import Path
 
 PACKAGE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = PACKAGE_DIR.parent.parent
+
+
+def _resolve_models_dir() -> Path:
+    """Locate models/ in a dev checkout, a Docker image, or a cloud host.
+
+    In a src-layout dev tree the artifacts live at PROJECT_ROOT/models. Once the
+    package is pip-installed (e.g. in the Docker image) PROJECT_ROOT resolves
+    inside site-packages, so we also honour an explicit ADDICTION_MODELS_DIR
+    override and probe the working directory and /app before giving up.
+    """
+    env = os.environ.get("ADDICTION_MODELS_DIR")
+    if env:
+        return Path(env)
+    for candidate in (PROJECT_ROOT / "models", Path.cwd() / "models", Path("/app/models")):
+        if candidate.exists():
+            return candidate
+    return PROJECT_ROOT / "models"
+
+
 DATA_PATH = PROJECT_ROOT / "data" / "Phone_Addiction.csv"
-MODELS_DIR = PROJECT_ROOT / "models"
+MODELS_DIR = _resolve_models_dir()
 
 MODEL_PATH = MODELS_DIR / "catboost_model.cbm"
 PREPROCESSOR_PATH = MODELS_DIR / "preprocessor.pkl"
