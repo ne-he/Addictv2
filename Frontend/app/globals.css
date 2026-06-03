@@ -7,6 +7,12 @@ body {
   margin: 0;
   background: #0b0c0f;
   color: #e4e4e7;
+  scrollbar-width: none; /* Firefox — hide scrollbar, scrolling still works */
+  -ms-overflow-style: none; /* old Edge/IE */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome / Safari */
 }
 body {
   font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
@@ -93,4 +99,63 @@ body {
 }
 .text-pretty {
   text-wrap: pretty;
+}
+
+/* Enter transition (landing → assessment): a clean dark cover with a minimal
+   "loading…" label. Hides the view swap + scroll reset so the jump into the
+   assessment feels deliberate, not abrupt. No colour — just dark + mono text. */
+.om-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  background: #0b0c0f;
+  animation: om-portal 1s ease-in-out forwards;
+}
+@keyframes om-portal {
+  0% {
+    opacity: 0;
+  }
+  42% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.om-loading {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: #a1a1aa;
+}
+.om-loading .om-dot {
+  animation: om-blink 1.4s infinite both;
+}
+.om-loading .om-dot:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.om-loading .om-dot:nth-child(3) {
+  animation-delay: 0.36s;
+}
+@keyframes om-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 0.2;
+  }
+  35% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .om-portal {
+    display: none;
+  }
 }

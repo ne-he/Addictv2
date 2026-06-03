@@ -37,6 +37,9 @@ export function Landing({ onStart }) {
   const canvasRef = useRef(null);
   const stageRef  = useRef(null);
   const cueRef    = useRef(null);
+  const enteredRef = useRef(false);   // guard: auto-masuk asesmen sekali saja
+  const onStartRef = useRef(onStart); // selalu pakai onStart terbaru di dalam effect
+  onStartRef.current = onStart;
 
   const [ready, setReady]       = useState(false); // true setelah semua frame ke-preload
   const [isStatic, setIsStatic] = useState(false); // mobile / reduced-motion → frame diam
@@ -98,6 +101,12 @@ export function Landing({ onStart }) {
       const p = denom > 0 ? Math.min(Math.max(-r.top / denom, 0), 1) : 0;
 
       drawIndex(Math.round(p * (FRAME_COUNT - 1)));
+
+      // Auto-masuk asesmen begitu scroll MENTOK di dasar hero (desktop).
+      if (p >= 0.992 && !enteredRef.current) {
+        enteredRef.current = true;
+        if (onStartRef.current) onStartRef.current();
+      }
 
       // "Menenang": menjelang asesmen, hero meredup & menyusut pelan.
       if (stageRef.current) {
@@ -192,13 +201,15 @@ export function Landing({ onStart }) {
             Refleksi hubunganmu dengan layar
           </div>
           <h1 className="text-[clamp(2.4rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-balance max-w-4xl">
-            Seberapa lekat kamu <span className="text-zinc-500">dengan ponselmu?</span>
+            Predict your <span className="text-[#FF4500]">phone addiction</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400 text-pretty">
             Jawab 19 pertanyaan singkat tentang pemakaian HP dan keseharianmu. Dapatkan indeks ketergantungan 1–10, faktor pendorongnya, dan langkah kecil untuk menyeimbangkan.
           </p>
           <div className="mt-10 flex flex-col items-center gap-5">
-            <Button variant="primary" size="lg" iconRight="arrowRight" onClick={onStart}>Mulai Tes</Button>
+            <Button variant="primary" size="lg" iconRight={isStatic ? "arrowRight" : "chevronDown"} onClick={onStart}>
+              {isStatic ? "Mulai Tes" : "Scroll untuk mulai"}
+            </Button>
             <span className="text-xs text-zinc-500 font-mono">± 2 menit · tanpa login · tanpa data tersimpan</span>
           </div>
 
@@ -214,7 +225,7 @@ export function Landing({ onStart }) {
 
         {/* scroll cue (memudar saat mulai scroll) */}
         <div ref={cueRef} className="relative z-10 pb-7 flex flex-col items-center gap-2 text-zinc-500">
-          <span className="font-mono text-[11px] tracking-wide">gulir untuk memutar</span>
+          <span className="font-mono text-[11px] tracking-wide">gulir ke bawah untuk mulai</span>
           <Icon name="chevronDown" size={16} className="animate-bounce" />
         </div>
       </div>

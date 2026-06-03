@@ -13,10 +13,28 @@ export default function App() {
   const [view, setView] = useState("landing"); // landing | assessment | result
   const [values, setValues] = useState({ ...DEFAULTS });
   const [result, setResult] = useState(null);
+  const [entering, setEntering] = useState(false); // transisi "portal" landing → asesmen
 
   const calm = view === "landing" ? 0 : 1;
 
-  const start = () => { setView("assessment"); window.scrollTo(0, 0); };
+  // Masuk asesmen lewat transisi portal yang menutupi pergantian view + reset scroll.
+  const start = () => {
+    if (entering) return;
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setView("assessment");
+      window.scrollTo(0, 0);
+      return;
+    }
+    setEntering(true); // portal menutup layar
+    window.setTimeout(() => {
+      setView("assessment");
+      window.scrollTo(0, 0);
+    }, 480); // ganti view saat portal sudah menutup penuh
+    window.setTimeout(() => setEntering(false), 1000); // portal membuka → asesmen
+  };
   const submit = async () => {
     // predict() is the ONE swap point — local mock today, your API later.
     const r = await predict(values);
@@ -37,6 +55,13 @@ export default function App() {
         )}
         {view === "result" && result && <Result values={values} result={result} onRestart={restart} />}
       </div>
+      {entering && (
+        <div className="om-portal" aria-hidden="true">
+          <span className="om-loading">
+            loading<span className="om-dot">.</span><span className="om-dot">.</span><span className="om-dot">.</span>
+          </span>
+        </div>
+      )}
     </>
   );
 }
