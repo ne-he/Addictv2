@@ -30,3 +30,6 @@ next-env.d.ts
 # raw source / scratch (the hero uses the extracted frames in public/sequence)
 /uploads/
 /screenshots/
+
+# dev server logs
+*.log
