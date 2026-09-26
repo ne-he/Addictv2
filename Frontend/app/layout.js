@@ -15,10 +15,16 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const title = "Sinyal · Phone Addiction Predictor";
+const description =
+  "Refleksi hubunganmu dengan layar. Jawab 19 pertanyaan singkat dan dapatkan indeks ketergantungan HP 1–10, faktor pendorongnya, dan langkah kecil untuk menyeimbangkan. Estimasi statistik, bukan diagnosis medis.";
+
+// The favicon comes from app/icon.svg (Next.js file convention).
 export const metadata = {
-  title: "Sinyal — Phone Addiction Predictor",
-  description:
-    "Refleksi hubunganmu dengan layar. Jawab 19 pertanyaan singkat dan dapatkan indeks ketergantungan HP 1–10, faktor pendorongnya, dan langkah kecil untuk menyeimbangkan. Estimasi statistik, bukan diagnosis medis.",
+  title,
+  description,
+  openGraph: { title, description, type: "website" },
+  twitter: { card: "summary", title, description },
 };
 
 export const viewport = {

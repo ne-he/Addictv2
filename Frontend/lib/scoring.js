@@ -150,7 +150,7 @@ export function computeResult(values) {
   else if (category === "medium")
     interpretation = `Tingkat ketergantungan kamu tergolong sedang. ${topUp[0] ? "Perhatikan terutama " + lead + "." : "Pola umummu masih seimbang."} Beberapa penyesuaian ringan sudah cukup membantu.`;
   else
-    interpretation = `Tingkat ketergantungan kamu tergolong rendah. Pola pemakaianmu cukup sehat — pertahankan kebiasaan baik yang sudah berjalan.`;
+    interpretation = `Tingkat ketergantungan kamu tergolong rendah. Pola pemakaianmu cukup sehat. Pertahankan kebiasaan baik yang sudah berjalan.`;
 
   return { addiction_level, category, category_label: label, interpretation, recommendations, drivers };
 }
@@ -207,7 +207,7 @@ export async function predict(values) {
     // Graceful fallback: the local demo model keeps the page usable if the
     // backend is down or the free Space is waking up.
     if (typeof console !== "undefined")
-      console.warn("predict(): falling back to local demo —", err?.message || err);
+      console.warn("predict(): falling back to local demo:", err?.message || err);
     return computeResult(values);
   }
 }

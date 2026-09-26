@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- favicon: the header brand mark (smartphone icon on the dark rounded tile) -->
+  <rect x="0.5" y="0.5" width="31" height="31" rx="8" fill="#1a1b1d" stroke="#232427" />
+  <g transform="translate(6 6) scale(0.8333)" fill="none" stroke="#d4d4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+    <path d="M11 19h2" />
+  </g>
+</svg>
