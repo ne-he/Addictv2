@@ -2,10 +2,15 @@
 
 Production-ready rewrite of a smartphone-addiction-level regressor (CatBoost,
 scale **1–10**) with a **single shared preprocessing core** reused by training,
-a FastAPI service, and a Streamlit demo — plus SHAP explanations, a pinned
+a FastAPI service, and a Streamlit demo, plus SHAP explanations, a pinned
 environment, tests, CI, and a Docker image.
 
 ![CI](https://github.com/ne-he/Addictv2/actions/workflows/ci.yml/badge.svg)
+
+**Live demo:** <https://addictv2.vercel.app>
+· API: <https://ne-he-addictv2.hf.space> ([`/health`](https://ne-he-addictv2.hf.space/health),
+[`/docs`](https://ne-he-addictv2.hf.space/docs)), the FastAPI service on a Hugging Face Space.
+The Next.js frontend in `Frontend/` calls it through a server-side `/api/predict` proxy.
 
 > ⚠️ **Honest caveat:** the test R² (~0.95) is unusually high for behavioural
 > data, which strongly suggests the dataset is **synthetic**. Predictions are
@@ -72,7 +77,7 @@ Addictv2/
 python -m venv .venv && source .venv/bin/activate    # Windows: .venv\Scripts\activate
 pip install -e ".[api,app,dev]"
 
-# 2. (Optional) retrain — artifacts are already committed
+# 2. (Optional) retrain: artifacts are already committed
 python -m addiction_predictor.train
 
 # 3. Run the REST API
@@ -127,14 +132,14 @@ largest first).
 ## How it works
 
 - **Input:** 19 raw fields (17 numeric + 2 categorical), validated by a pydantic
-  model generated from `config` — ranges live in exactly one place. A cross-field
+  model generated from `config`: ranges live in exactly one place. A cross-field
   rule rejects activity hours that sum to more than 24h/day.
 - **Preprocessing** (`Preprocessor`): clean → impute (median/mode) → one-hot
   encode → engineer 10 derived features (ratios, interactions, a flag) → `log1p`
   skewed columns → standard-scale. Produces **33 model features**.
 - **Model:** `CatBoostRegressor` (best params from the notebook's Optuna search),
   predictions clipped to 1–10.
-- **Explainability:** CatBoost's native `ShapValues` — no extra dependency. Each
+- **Explainability:** CatBoost's native `ShapValues`, no extra dependency. Each
   driver is mapped to a human label and a direction (raises/lowers the score).
 - **Interpretation:** thresholds bucket the score; recommendations are derived
   from the features that pushed the score up.
