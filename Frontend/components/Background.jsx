@@ -1,6 +1,6 @@
-// Background.jsx — canvas particle field ("digital noise"). The field is busy
+// Background.jsx: canvas particle field ("digital noise"). The field is busy
 // on the landing (calm=0) and visibly settles down once the assessment starts
-// (calm=1) — the UI enacts the message. Honours prefers-reduced-motion.
+// (calm=1): the UI enacts the message. Honours prefers-reduced-motion.
 "use client";
 
 import { useRef, useEffect } from "react";

@@ -1,8 +1,8 @@
-# Frontend Design Brief — Phone Addiction Predictor
+# Frontend Design Brief: Phone Addiction Predictor
 
 A brief for designing the **web frontend** that sits on top of the existing
 FastAPI backend in this repo. It specifies *structure, features, data contract,
-and interaction* — and gives an opinionated visual direction (including the
+and interaction*, and gives an opinionated visual direction (including the
 "video background" question). Layout, exact colours, and illustration style are
 left to the designer. The last section is a condensed **paste-ready prompt** for
 a design AI (v0 / Claude / Lovable / etc.).
@@ -10,7 +10,7 @@ a design AI (v0 / Claude / Lovable / etc.).
 > The backend is done: a FastAPI service exposing `/predict`, `/predict/batch`,
 > `/features`, `/model-card`, `/health`. The frontend's job is to make filling a
 > profile and reading the result feel effortless, trustworthy, and a little
-> memorable — without ever pretending to be a medical diagnosis.
+> memorable, without ever pretending to be a medical diagnosis.
 
 ---
 
@@ -22,7 +22,7 @@ a plain-language **interpretation**, **personalised recommendations**, and the
 **top factors (SHAP)** that pushed the score up or down.
 
 - **Audience:** general public (students, young adults). Casual, not clinical.
-- **Tone:** calm, honest, encouraging — *reflection tool, not a verdict*.
+- **Tone:** calm, honest, encouraging: *reflection tool, not a verdict*.
 - **Hard constraint:** an ethical disclaimer ("statistical estimate, NOT a
   medical/psychological diagnosis; dataset is likely synthetic") must be visible
   on the landing and beside every result. Never use alarmist language.
@@ -32,7 +32,7 @@ a plain-language **interpretation**, **personalised recommendations**, and the
 
 ## 2. Recommended stack (matches the rest of the project)
 
-- **Next.js (App Router)** — SSR landing page (recruiter/Google-readable), client
+- **Next.js (App Router)**: SSR landing page (recruiter/Google-readable), client
   components for the interactive parts.
 - **Talk to the API via Next.js Route Handlers** that proxy to FastAPI (keeps the
   API URL server-side, avoids prod CORS). CORS is already enabled on the backend
@@ -78,23 +78,23 @@ from the backend. Shape:
 **The 19 inputs** (label = Indonesian text shown to the user), grouped into 5
 sensible wizard steps:
 
-1. **Demografi** — `Age` (Usia, 1–100), `Gender` (Male/Female/Other)
-2. **Pemakaian HP** — `Daily_Usage_Hours`, `Weekend_Usage_Hours`,
+1. **Demografi**: `Age` (Usia, 1–100), `Gender` (Male/Female/Other)
+2. **Pemakaian HP**: `Daily_Usage_Hours`, `Weekend_Usage_Hours`,
    `Phone_Checks_Per_Day` (0–500), `Apps_Used_Daily` (0–100),
    `Phone_Usage_Purpose` (Browsing/Education/Gaming/Social Media/Other)
-3. **Aktivitas (jam/hari)** — `Time_on_Social_Media`, `Time_on_Gaming`,
+3. **Aktivitas (jam/hari)**: `Time_on_Social_Media`, `Time_on_Gaming`,
    `Time_on_Education`, `Screen_Time_Before_Bed`, `Exercise_Hours`
-4. **Tidur & Kesehatan Mental** — `Sleep_Hours`, `Anxiety_Level` (0–10),
+4. **Tidur & Kesehatan Mental**: `Sleep_Hours`, `Anxiety_Level` (0–10),
    `Depression_Level` (0–10), `Self_Esteem` (0–10),
    `Interllectual_Performance` (0–100)
-5. **Interaksi Sosial** — `Social_Interactions` (0–20), `Family_Communication` (0–20)
+5. **Interaksi Sosial**: `Social_Interactions` (0–20), `Family_Communication` (0–20)
 
 **Cross-field rule (must enforce client-side too):**
 `Time_on_Social_Media + Time_on_Gaming + Time_on_Education ≤ 24`. Show this as a
 live **"sisa jam hari ini"** meter on step 3; block submit if exceeded (the API
 returns HTTP 422 otherwise).
 
-**Output** from `POST /predict` (one profile) — design the result screen to this:
+**Output** from `POST /predict` (one profile). Design the result screen to this:
 
 ```jsonc
 {
@@ -118,59 +118,59 @@ Category cutoffs: **low** `< 4.0`, **medium** `4.0–<7.0`, **high** `≥ 7.0`.
 ## 5. Feature / component inventory
 
 **Form**
-- `FeatureField` — renders a slider+number for numeric (respect `is_int`,
+- `FeatureField`: renders a slider+number for numeric (respect `is_int`,
   `min/max/step`) or a segmented control / select for categorical. Driven by
   `/features` so adding a backend field needs no redesign.
 - `WizardStepper` + progress; "back/next"; per-step validation.
-- `ActivityBudgetMeter` — visualises the 24h rule as you type (turns red past 24h).
+- `ActivityBudgetMeter`: visualises the 24h rule as you type (turns red past 24h).
 
 **Result**
-- `ScoreGauge` — 1–10 arc/radial gauge, needle/fill coloured by category
+- `ScoreGauge`: 1–10 arc/radial gauge, needle/fill coloured by category
   (green→amber→red). Animate a count-up on reveal.
-- `CategoryBadge` — Rendah / Sedang / Tinggi, colour + **text** (never colour
-  alone — accessibility).
-- `DriverChart` — **diverging horizontal bars**: orange bars = factors that
+- `CategoryBadge`: Rendah / Sedang / Tinggi, colour + **text** (never colour
+  alone: accessibility).
+- `DriverChart`: **diverging horizontal bars**: orange bars = factors that
   *raise* the score, green = factors that *lower* it; sorted by magnitude.
   Tooltip shows the signed contribution in score units.
-- `RecommendationCard` — icon + action text, one per recommendation.
-- `WhatIfPanel` *(highlight feature)* — sliders bound to the top 3–4 drivers;
+- `RecommendationCard`: icon + action text, one per recommendation.
+- `WhatIfPanel` *(highlight feature)*: sliders bound to the top 3–4 drivers;
   dragging re-calls `/predict` (debounced) and re-animates the gauge live. This
-  shows the model is interactive and fast — a great portfolio moment.
-- `DisclaimerBanner` — persistent, calm, non-alarmist.
+  shows the model is interactive and fast, a great portfolio moment.
+- `DisclaimerBanner`: persistent, calm, non-alarmist.
 
 **About**
-- `ModelCardViewer` — renders `/model-card`: metrics table, library versions,
+- `ModelCardViewer`: renders `/model-card`: metrics table, library versions,
   and the *caveats* verbatim (the honesty is a selling point, not a footnote).
 
 ---
 
-## 6. Visual direction — and the "video background" question
+## 6. Visual direction, and the "video background" question
 
 **My recommendation, with reasoning (this is the part you asked me to think
 about):**
 
 **Do NOT reuse the particle-face videos here.** Those belong to your *personal
-portfolio* (Saturn Protocol) — the subject there is *you*. On an addiction tool
+portfolio* (Saturn Protocol): the subject there is *you*. On an addiction tool
 the subject is the *user's behaviour*; your face on it would be confusing and
 off-topic. Save those assets for the portfolio.
 
-**Should there be a generated/video background at all? Partially — and tied to
+**Should there be a generated/video background at all? Partially, and tied to
 the theme, not decoration.** A health/assessment tool lives or dies on feeling
 *calm and trustworthy*; heavy motion behind a form or a result undermines that
-(and hurts Lighthouse, mobile data, and motion-sensitive users — ironic for a
+(and hurts Lighthouse, mobile data, and motion-sensitive users, ironic for a
 *digital-wellbeing* app). So:
 
-- **Landing hero — yes, ambient + lightweight.** Use a **canvas/WebGL particle
+- **Landing hero: yes, ambient + lightweight.** Use a **canvas/WebGL particle
   field** (drifting notification dots, app-icon glints, a faint network of
   connections) rather than a heavy MP4. It evokes "digital noise" on-theme, stays
   < a few hundred KB, and runs at 60fps. A short, *muted, compressed* video loop
   is acceptable **only** with a poster fallback, lazy-load, and a static gradient
   on mobile.
-- **Assessment + Result — no background video/heavy motion.** Clean, dark,
+- **Assessment + Result: no background video/heavy motion.** Clean, dark,
   focused. Motion only as micro-interactions (gauge count-up, bars growing in,
   step transitions).
 - **Narrative hook (optional but strong):** make the hero feel *slightly
-  overstimulating* (lots of particles) — that's the problem — and have the UI
+  overstimulating* (lots of particles), that's the problem, and have the UI
   visibly **calm down** the moment the assessment starts (fewer particles, more
   whitespace, slower motion). The design *enacts* the message. Recruiters
   remember that.
@@ -178,10 +178,10 @@ the theme, not decoration.** A health/assessment tool lives or dies on feeling
   gradient).
 
 **Palette / mood (suggested, flexible):**
-- **Dark mode default** — easy on the eyes, on-theme (screen wellbeing), matches
+- **Dark mode default**: easy on the eyes, on-theme (screen wellbeing), matches
   your aesthetic.
 - **Risk-coded score:** green (low) → amber (medium) → red (high). Let your
-  **Lava Orange (#FF4500)** be the *high-risk* accent — so the app quietly nods
+  **Lava Orange (#FF4500)** be the *high-risk* accent, so the app quietly nods
   to your Saturn identity *without* copying the face.
 - Generous whitespace, large legible type, one accent at a time. Think "Apple
   Screen Time / Google Digital Wellbeing, but with more personality."
@@ -197,7 +197,7 @@ the theme, not decoration.** A health/assessment tool lives or dies on feeling
 - **Loading:** skeletons on the result screen; a subtle progress state on submit.
 - **Empty/error:** friendly messages; a retry on network error.
 - **Shareable result:** "download as image/PDF" and/or a copyable summary
-  (no personal data is stored server-side — say so).
+  (no personal data is stored server-side, say so).
 
 ---
 

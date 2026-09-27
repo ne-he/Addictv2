@@ -1,4 +1,4 @@
-// scoring.jsx — field config + DEMO mock model (NOT a real model)
+// scoring.jsx: field config + DEMO mock model (NOT a real model)
 // Exposes window.SCORING
 
 // ── Field catalogue ────────────────────────────────────────────────
@@ -142,7 +142,7 @@ function computeResult(values) {
   else if (category === "medium")
     interpretation = `Tingkat ketergantungan kamu tergolong sedang. ${topUp[0] ? "Perhatikan terutama " + lead + "." : "Pola umummu masih seimbang."} Beberapa penyesuaian ringan sudah cukup membantu.`;
   else
-    interpretation = `Tingkat ketergantungan kamu tergolong rendah. Pola pemakaianmu cukup sehat — pertahankan kebiasaan baik yang sudah berjalan.`;
+    interpretation = `Tingkat ketergantungan kamu tergolong rendah. Pola pemakaianmu cukup sehat, pertahankan kebiasaan baik yang sudah berjalan.`;
 
   return { addiction_level, category, category_label: label, interpretation, recommendations, drivers };
 }

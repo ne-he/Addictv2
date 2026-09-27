@@ -1,4 +1,4 @@
-// app.jsx — root: view state + transitions. Exposes window.App
+// app.jsx (root): view state + transitions. Exposes window.App
 const { useState: appUseState, useMemo: appUseMemo } = React;
 
 function App() {

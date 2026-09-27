@@ -1,4 +1,4 @@
-// ui.jsx — shared controls: Button, Field, Segmented, SelectChips, Disclaimer.
+// ui.jsx (shared controls): Button, Field, Segmented, SelectChips, Disclaimer.
 import { useId } from "react";
 import { Icon } from "./Icons";
 import { clamp } from "@/lib/scoring";

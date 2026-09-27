@@ -3,7 +3,7 @@
 `AddictionModel` wraps the trained CatBoost model and the fitted Preprocessor.
 It is the only place inference happens, so the API and the Streamlit UI share
 identical predictions. SHAP values come from CatBoost natively
-(`get_feature_importance(type="ShapValues")`) — no external shap dependency.
+(`get_feature_importance(type="ShapValues")`), no external shap dependency.
 """
 
 from __future__ import annotations

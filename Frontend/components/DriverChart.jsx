@@ -1,6 +1,6 @@
-// DriverChart.jsx — diverging horizontal bars. Orange = raises score,
+// DriverChart.jsx: diverging horizontal bars. Orange = raises score,
 // green = lowers it; sorted by magnitude. Direction is conveyed by side,
-// colour, label, and icon — never colour alone.
+// colour, label, and icon: never colour alone.
 "use client";
 
 import { useState } from "react";

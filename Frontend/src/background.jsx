@@ -1,4 +1,4 @@
-// background.jsx — canvas particle field ("digital noise"). Exposes window.Background
+// background.jsx: canvas particle field ("digital noise"). Exposes window.Background
 const { useRef: bgUseRef, useEffect: bgUseEffect } = React;
 
 function Background({ calm = 0 }) {

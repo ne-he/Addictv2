@@ -1,4 +1,4 @@
-// Result.jsx — result view: gauge + category verdict, driver chart,
+// Result.jsx (result view): gauge + category verdict, driver chart,
 // recommendations, and a live "what-if" panel. Lava Orange (#FF4500) appears
 // only on the high-risk band; a non-alarmist disclaimer sits beside the result.
 "use client";

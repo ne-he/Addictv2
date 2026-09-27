@@ -1,4 +1,4 @@
-# Addictv2 — Phone Addiction Predictor
+# Addictv2: Phone Addiction Predictor
 ### Workflow & Dokumentasi Lengkap
 
 Web app yang memprediksi **tingkat ketergantungan smartphone (skala 1–10)** dari
@@ -14,19 +14,19 @@ kebiasaan harian seseorang, lengkap dengan **penjelasan faktor pendorong** dan
 | 📊 **Akurasi model** | Test R² 0.95 · RMSE 0.37 |
 
 Dokumen ini punya **dua bagian** dengan gaya berbeda:
-- **Bagian 1 — Penjelasan Umum** → untuk pengguna, recruiter/HRD, siapa pun (tanpa istilah teknis).
-- **Bagian 2 — Penjelasan Teknis** → untuk teman, dosen, atau engineer (arsitektur + fitur + workflow lengkap).
+- **Bagian 1: Penjelasan Umum** → untuk pengguna, recruiter/HRD, siapa pun (tanpa istilah teknis).
+- **Bagian 2: Penjelasan Teknis** → untuk teman, dosen, atau engineer (arsitektur + fitur + workflow lengkap).
 
 ---
 ---
 
-# BAGIAN 1 — Penjelasan Umum (untuk semua orang)
+# BAGIAN 1: Penjelasan Umum (untuk semua orang)
 
 ## Apa ini?
 
 **Addictv2** adalah sebuah website di mana kamu menjawab 19 pertanyaan singkat
 tentang kebiasaan pakai HP dan keseharianmu, lalu sistem memberi tahu **seberapa
-lekat kamu dengan ponselmu** dalam bentuk skor 1–10 — plus alasannya dan langkah
+lekat kamu dengan ponselmu** dalam bentuk skor 1–10, plus alasannya dan langkah
 kecil untuk memperbaikinya.
 
 Anggap saja seperti **cek kesehatan ringan untuk hubunganmu dengan layar.**
@@ -41,7 +41,7 @@ yang paling berpengaruh**, supaya lebih mudah sadar dan mulai berubah.
 
 1. **Buka webnya** → scroll lewat intro sinematiknya. Begitu scroll mentok, kamu
    otomatis masuk ke kuis (tanpa klik).
-2. **Jawab 19 pertanyaan** — usia, jam pakai HP, jam tidur, waktu di medsos, dll.
+2. **Jawab 19 pertanyaan**: usia, jam pakai HP, jam tidur, waktu di medsos, dll.
    Cukup geser slider. Tanpa login, tanpa daftar.
 3. **Lihat hasilnya** langsung di layar.
 
@@ -50,15 +50,15 @@ yang paling berpengaruh**, supaya lebih mudah sadar dan mulai berubah.
 - 🎯 **Skor 1–10** dengan jarum penunjuk (gauge) berwarna.
 - 🏷️ **Level**: Rendah / Sedang / Tinggi.
 - 💬 **Penjelasan** singkat dalam bahasa sehari-hari.
-- 📊 **Faktor pendorong** — apa saja yang *menaikkan* skor (oranye) dan
+- 📊 **Faktor pendorong**: apa saja yang *menaikkan* skor (oranye) dan
   *menurunkan* skor (hijau), diurut dari yang paling berpengaruh.
-- ✅ **Rekomendasi** — beberapa langkah kecil yang bisa dicoba.
-- 🎛️ **Simulasi "bagaimana jika"** — geser faktor teratas dan lihat skornya
+- ✅ **Rekomendasi**: beberapa langkah kecil yang bisa dicoba.
+- 🎛️ **Simulasi "bagaimana jika"**: geser faktor teratas dan lihat skornya
   bergerak langsung.
 
 ## Biar gampang dibayangin (analogi)
 
-Di belakang layar ada sebuah **"model"** — ibarat **dokter berpengalaman yang
+Di belakang layar ada sebuah **"model"**: ibarat **dokter berpengalaman yang
 sudah melihat ribuan kasus**. Kamu cerita kebiasaanmu, dia memberi perkiraan
 berdasarkan pola yang sudah ia pelajari. Bedanya: dia **menghitung**, bukan
 mendiagnosis.
@@ -73,7 +73,7 @@ mendiagnosis.
 ---
 ---
 
-# BAGIAN 2 — Penjelasan Teknis (untuk teman / dosen / engineer)
+# BAGIAN 2: Penjelasan Teknis (untuk teman / dosen / engineer)
 
 ## Ringkasan
 
@@ -101,7 +101,7 @@ CI, Docker, dan dua layanan ter-deploy yang saling terhubung.
                         │  isi 19 field, submit
                         ▼
         ┌───────────────────────────────┐
-        │  FRONTEND — Next.js @ Vercel   │
+        │  FRONTEND: Next.js @ Vercel    │
         │  hero sequence · wizard · hasil │
         └───────────────┬───────────────┘
                         │  fetch  POST /api/predict
@@ -112,7 +112,7 @@ CI, Docker, dan dua layanan ter-deploy yang saling terhubung.
                         │  POST  {API_URL}/predict
                         ▼
         ┌───────────────────────────────┐
-        │  BACKEND — FastAPI @ HF Spaces │
+        │  BACKEND: FastAPI @ HF Spaces  │
         │  Preprocessor → CatBoost → SHAP │
         └───────────────┬───────────────┘
                         │  JSON: skor, kategori, drivers, rekomendasi
@@ -155,25 +155,25 @@ saat latih dan saat produksi tidak akan pernah berbeda).
    (jika API mati/tidur → frontend otomatis fallback ke model demo lokal, web tak pernah rusak)
 ```
 
-## Backend — Fitur Lengkap
+## Backend: Fitur Lengkap
 
-- **`config.py`** — satu tempat untuk semua konstanta: spesifikasi 19 fitur
+- **`config.py`**: satu tempat untuk semua konstanta: spesifikasi 19 fitur
   (rentang, default, tipe), path, hyperparameter, ambang kategori. Resolusi
   folder `models/` cerdas (dev / Docker / cloud).
-- **`schema.py`** — model input **Pydantic v2** *di-generate dari config*, jadi
+- **`schema.py`**: model input **Pydantic v2** *di-generate dari config*, jadi
   rentang valid hanya ditulis sekali. Ada **validasi lintas-field**: total jam
   aktivitas (medsos + game + edukasi) **tidak boleh > 24 jam/hari** (otomatis 422
   kalau dilanggar).
-- **`pipeline.py`** — kelas **`Preprocessor`** (sumber kebenaran tunggal, lihat
+- **`pipeline.py`**: kelas **`Preprocessor`** (sumber kebenaran tunggal, lihat
   Workflow A).
-- **`model.py`** — memuat artifacts sekali, `predict()` (di-clip 1–10), dan
+- **`model.py`**: memuat artifacts sekali, `predict()` (di-clip 1–10), dan
   `explain()` memakai **SHAP native CatBoost** (`get_feature_importance`,
   tanpa dependency `shap` eksternal).
-- **`interpret.py`** — skor → kategori (Rendah <4, Sedang 4–7, Tinggi ≥7),
+- **`interpret.py`**: skor → kategori (Rendah <4, Sedang 4–7, Tinggi ≥7),
   teks interpretasi, dan **rekomendasi yang dipersonalisasi** dari faktor yang
   paling menaikkan skor.
-- **`train.py`** — pelatihan + tulis `model_card.json` (metrik, hash data, versi).
-- **API (`api/main.py`)** — FastAPI dengan endpoint:
+- **`train.py`**: pelatihan + tulis `model_card.json` (metrik, hash data, versi).
+- **API (`api/main.py`)**: FastAPI dengan endpoint:
   | Method | Path | Fungsi |
   |---|---|---|
   | GET | `/health` | cek server + metrik model |
@@ -184,29 +184,29 @@ saat latih dan saat produksi tidak akan pernah berbeda).
 - **Kualitas:** 34 tes pytest, lint ruff, **CI GitHub Actions** (install → lint →
   tes → smoke-train tiap push), serta **Dockerfile** siap produksi.
 
-## Frontend — Fitur Lengkap
+## Frontend: Fitur Lengkap
 
-- **Next.js App Router** — landing SSR (kebaca Google/recruiter) + komponen
+- **Next.js App Router**: landing SSR (kebaca Google/recruiter) + komponen
   interaktif sisi-klien.
-- **Hero sinematik scroll-driven** — 125 frame gambar di-*preload* lalu digambar
+- **Hero sinematik scroll-driven**: 125 frame gambar di-*preload* lalu digambar
   ke **`<canvas>`** mengikuti posisi scroll (teknik ala halaman produk Apple;
   bukan video, jadi mulus & tanpa lag). Scroll ke bawah memutar maju, ke atas
   mundur. Di mobile/`prefers-reduced-motion` → poster diam (hemat data).
-- **Scroll-to-start** — begitu scroll mentok di dasar hero, **otomatis masuk** ke
+- **Scroll-to-start**: begitu scroll mentok di dasar hero, **otomatis masuk** ke
   kuis. Di mobile tetap ada tombol.
-- **Transisi "loading"** — pergantian halaman ditutup layar gelap minimalis
+- **Transisi "loading"**: pergantian halaman ditutup layar gelap minimalis
   (menyembunyikan reset scroll), jadi terasa disengaja, bukan patah.
-- **Wizard 5 langkah** — 19 field dikelompokkan (Demografi, Pemakaian HP,
+- **Wizard 5 langkah**: 19 field dikelompokkan (Demografi, Pemakaian HP,
   Aktivitas, Tidur & Mental, Sosial), dengan **meter "sisa jam hari ini"** yang
   menegakkan aturan 24 jam secara langsung.
 - **Halaman hasil**:
-  - **ScoreGauge** — gauge 1–10 beranimasi, warna hijau→kuning→oranye per kategori.
-  - **CategoryBadge** — label + warna (warna tidak pernah jadi satu-satunya sinyal → aksesibel).
-  - **DriverChart** — *diverging bar* SHAP: oranye = menaikkan, hijau = menurunkan.
+  - **ScoreGauge**: gauge 1–10 beranimasi, warna hijau→kuning→oranye per kategori.
+  - **CategoryBadge**: label + warna (warna tidak pernah jadi satu-satunya sinyal → aksesibel).
+  - **DriverChart**: *diverging bar* SHAP: oranye = menaikkan, hijau = menurunkan.
   - **Kartu rekomendasi** + **panel "What-if"** (geser faktor, skor bergerak live).
-- **Wiring** — semua prediksi lewat satu fungsi `predict()` → route handler →
+- **Wiring**: semua prediksi lewat satu fungsi `predict()` → route handler →
   FastAPI, dengan **fallback otomatis** ke model demo lokal bila API mati.
-- **Aksesibel & cepat** — keyboard-navigable, ARIA, `prefers-reduced-motion`,
+- **Aksesibel & cepat**: keyboard-navigable, ARIA, `prefers-reduced-motion`,
   **Lighthouse 100/100/100/100** (Performance/Accessibility/Best-Practices/SEO).
 
 ## Workflow Deployment

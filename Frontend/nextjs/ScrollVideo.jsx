@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /* ════════════════════════════════════════════════════════════════════════
-   ScrollVideo — video yang frame-nya dikendalikan oleh posisi scroll.
+   ScrollVideo: video yang frame-nya dikendalikan oleh posisi scroll.
    Scroll ke bawah = maju, scroll ke atas = mundur. Video di-PAUSE; tidak
    pernah autoplay / loop. currentTime di-set manual dari progres scroll.
 
@@ -120,7 +120,7 @@ export default function ScrollVideo({ children }) {
           }}
         />
 
-        {/* Konten hero — selalu DI ATAS video */}
+        {/* Konten hero: selalu DI ATAS video */}
         <div style={{ position: "relative", zIndex: 1, height: "100%" }}>
           {children}
         </div>

@@ -1,4 +1,4 @@
-// Landing.jsx — hero with a SCROLL-DRIVEN IMAGE SEQUENCE (like Apple product
+// Landing.jsx: hero with a SCROLL-DRIVEN IMAGE SEQUENCE (like Apple product
 // pages). Frames are preloaded and drawn to a <canvas> (no <img> swapping →
 // no flicker, no <video> seeking → no lag). Scroll progress maps to a frame
 // index; scrolling up plays it backward automatically.

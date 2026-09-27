@@ -1,4 +1,4 @@
-// result.jsx — result view. Exposes window.Result
+// result.jsx: result view. Exposes window.Result
 const { useState: rUseState, useMemo: rUseMemo } = React;
 
 const CAT_STYLE = {

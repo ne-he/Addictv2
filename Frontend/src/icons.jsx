@@ -1,4 +1,4 @@
-// icons.jsx — minimal stroke icon set (lucide-style). Exposes window.Icon
+// icons.jsx: minimal stroke icon set (lucide-style). Exposes window.Icon
 const ICON_PATHS = {
   arrowRight: ["M5 12h14", "M13 6l6 6-6 6"],
   arrowLeft: ["M19 12H5", "M11 6l-6 6 6 6"],

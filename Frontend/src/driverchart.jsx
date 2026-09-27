@@ -1,4 +1,4 @@
-// driverchart.jsx — diverging horizontal bars. Exposes window.DriverChart
+// driverchart.jsx: diverging horizontal bars. Exposes window.DriverChart
 const { useState: dcUseState } = React;
 
 const UP_COLOR = "#FF4500";   // raises score

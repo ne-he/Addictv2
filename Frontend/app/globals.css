@@ -7,7 +7,7 @@ body {
   margin: 0;
   background: #0b0c0f;
   color: #e4e4e7;
-  scrollbar-width: none; /* Firefox — hide scrollbar, scrolling still works */
+  scrollbar-width: none; /* Firefox: hide scrollbar, scrolling still works */
   -ms-overflow-style: none; /* old Edge/IE */
 }
 html::-webkit-scrollbar,
@@ -103,7 +103,7 @@ body {
 
 /* Enter transition (landing → assessment): a clean dark cover with a minimal
    "loading…" label. Hides the view swap + scroll reset so the jump into the
-   assessment feels deliberate, not abrupt. No colour — just dark + mono text. */
+   assessment feels deliberate, not abrupt. No colour, just dark + mono text. */
 .om-portal {
   position: fixed;
   inset: 0;

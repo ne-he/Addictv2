@@ -1,4 +1,4 @@
-// scoring.js — field config + DEMO mock model (NOT a real model).
+// scoring.js: field config + DEMO mock model (NOT a real model).
 //
 // This is the data layer. It mirrors the backend contract:
 //   • 19 fields, with ranges/steps that match GET /features
@@ -7,7 +7,7 @@
 //     category_label, interpretation, recommendations, drivers)
 //
 // The ONLY entry point the UI calls for a prediction is `predict()` at the
-// bottom of this file — swap its body to hit your real API in one place.
+// bottom of this file: swap its body to hit your real API in one place.
 
 // ── Field catalogue ────────────────────────────────────────────────
 // direction: 'up' = higher value pushes score UP (more addiction)
@@ -156,7 +156,7 @@ export function computeResult(values) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-//  THE ONE SWAP POINT — now wired to the real API.
+//  THE ONE SWAP POINT: now wired to the real API.
 //  predict() POSTs to the Next.js route handler /api/predict, which proxies to
 //  the deployed FastAPI backend (URL kept server-side in API_URL). The backend
 //  payload is normalised to exactly what the UI expects, and if the backend is

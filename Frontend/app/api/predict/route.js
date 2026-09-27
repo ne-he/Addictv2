@@ -1,4 +1,4 @@
-// app/api/predict/route.js — server-side proxy to the FastAPI backend.
+// app/api/predict/route.js: server-side proxy to the FastAPI backend.
 //
 // The browser calls THIS same-origin route; the route calls FastAPI. That keeps
 // API_URL (and any future key) server-side and sidesteps browser CORS entirely.

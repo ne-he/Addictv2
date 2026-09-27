@@ -1,4 +1,4 @@
-// App.jsx — root: view state + transitions (landing → assessment → result).
+// App.jsx (root): view state + transitions (landing → assessment → result).
 // This is the single client-side state machine; page.js mounts it at "/".
 "use client";
 
@@ -36,7 +36,7 @@ export default function App() {
     window.setTimeout(() => setEntering(false), 1000); // portal membuka → asesmen
   };
   const submit = async () => {
-    // predict() is the ONE swap point — local mock today, your API later.
+    // predict() is the ONE swap point: local mock today, your API later.
     const r = await predict(values);
     setResult(r);
     setView("result");

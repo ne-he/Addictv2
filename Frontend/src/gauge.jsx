@@ -1,4 +1,4 @@
-// gauge.jsx — animated radial 1–10 score gauge. Exposes window.ScoreGauge
+// gauge.jsx: animated radial 1–10 score gauge. Exposes window.ScoreGauge
 const { useState: gUseState, useEffect: gUseEffect, useRef: gUseRef } = React;
 
 const GAUGE_COLORS = { low: "#34d399", medium: "#fbbf24", high: "#FF4500" };

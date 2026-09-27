@@ -1,4 +1,4 @@
-// Gauge.jsx — animated radial 1–10 score gauge. Colour follows the category
+// Gauge.jsx: animated radial 1–10 score gauge. Colour follows the category
 // (green → amber → red); Lava Orange (#FF4500) is reserved for high risk only.
 "use client";
 

@@ -1,4 +1,4 @@
-// Assessment.jsx — 5-step wizard. Enforces the 24h activity-budget rule on the
+// Assessment.jsx: 5-step wizard. Enforces the 24h activity-budget rule on the
 // Aktivitas step (Time_on_Social_Media + Time_on_Gaming + Time_on_Education ≤ 24)
 // with a live "sisa jam hari ini" meter; submit is blocked while it overflows.
 "use client";

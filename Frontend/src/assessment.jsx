@@ -1,4 +1,4 @@
-// assessment.jsx — 5-step wizard. Exposes window.Assessment
+// assessment.jsx: 5-step wizard. Exposes window.Assessment
 const { useState: aUseState, useMemo: aUseMemo } = React;
 
 const STEP_ACCENT = "#cbd5e1"; // calm slate accent across the form (one accent at a time)

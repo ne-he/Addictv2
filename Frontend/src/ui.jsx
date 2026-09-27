@@ -1,4 +1,4 @@
-// ui.jsx — shared controls. Exposes Button, Field, Segmented, SelectChips, Disclaimer
+// ui.jsx: shared controls. Exposes Button, Field, Segmented, SelectChips, Disclaimer
 const { useState, useRef, useId } = React;
 
 function Button({ children, variant = "primary", size = "md", className = "", icon, iconRight, ...rest }) {

@@ -1,11 +1,11 @@
-// landing.jsx — hero with GSAP scroll-triggered video background. Exposes window.Landing
+// landing.jsx: hero with GSAP scroll-triggered video background. Exposes window.Landing
 const { useRef: lUseRef, useEffect: lUseEffect } = React;
 
 /* ════════════════════════════════════════════════════════════════════════
    PENGATURAN EFEK VIDEO SCROLL  ·  ubah angka di sini saja
    ──────────────────────────────────────────────────────────────────────
    VIDEO_SRC        : lokasi file video.
-   POSTER_SRC       : gambar diam (poster) — dipakai sebagai fallback di mobile,
+   POSTER_SRC       : gambar diam (poster), dipakai sebagai fallback di mobile,
                       saat prefers-reduced-motion, atau sebelum video siap.
    SCROLL_TRACK_VH  : tinggi "rel" scroll dalam % tinggi layar.
                       Makin BESAR → makin PANJANG jarak scroll → video terasa
@@ -85,7 +85,7 @@ function Landing({ onStart }) {
       // Petunjuk "gulir" memudar di 12% awal.
       if (cueRef.current)
         tl.to(cueRef.current, { autoAlpha: 0, ease: "none", duration: 0.12 }, 0);
-      // "Menenang": menjelang asesmen, gerak diredam — video & skala memudar pelan,
+      // "Menenang": menjelang asesmen, gerak diredam, video & skala memudar pelan,
       // scrim menggelap, agar transisi ke form terasa tenang.
       if (stage)
         tl.to(stage, { opacity: 0.55, scale: 0.985, ease: "power1.in",
